@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+
+  "name": "Motion Layer",
+
+  "version": "1.0",
+
+  "description": "Cinematic browser interaction engine",
+
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+
+      "js": ["content.js"],
+
+      "css": ["styles.css"]
+    }
+  ]
+}

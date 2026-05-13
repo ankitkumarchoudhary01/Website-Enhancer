@@ -1,0 +1,256 @@
+html {
+    scroll-behavior: smooth;
+}
+
+/* ======================
+   PAGE TRANSITION
+====================== */
+
+#motion-layer-overlay {
+
+    position: fixed;
+    inset: 0;
+
+    background: black;
+
+    z-index: 999999;
+
+    opacity: 1;
+
+    transition:
+        opacity 0.5s ease;
+
+    pointer-events: none;
+}
+
+/* ======================
+   CURSOR GLOW
+====================== */
+
+#motion-cursor {
+
+    position: fixed;
+
+    width: 20px;
+    height: 20px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(
+            var(--motion-rgb),
+            0.8
+        );
+
+    pointer-events: none;
+
+    z-index: 9999999;
+
+    transform:
+        translate(-50%, -50%);
+
+    transition:
+        width 0.2s ease,
+        height 0.2s ease,
+        background 0.2s ease;
+
+    mix-blend-mode: difference;
+}
+
+/* ======================
+   RIPPLE EFFECT
+====================== */
+
+.motion-ripple {
+
+    position: fixed;
+
+    width: 20px;
+    height: 20px;
+
+    border-radius: 50%;
+
+    border: 2px solid white;
+
+    pointer-events: none;
+
+    z-index: 9999999;
+
+    transform:
+        translate(-50%, -50%)
+        scale(0);
+
+    animation:
+        ripple-animation 0.6s ease-out forwards;
+}
+
+@keyframes ripple-animation {
+
+    to {
+
+        transform:
+            translate(-50%, -50%)
+            scale(8);
+
+        opacity: 0;
+    }
+}
+
+/* ======================
+   PARTICLE TRAILS
+====================== */
+
+.motion-particle {
+
+    position: fixed;
+
+    width: 10px;
+    height: 10px;
+
+    border-radius: 50%;
+
+    pointer-events: none;
+
+    z-index: 9999999;
+
+    background:
+        rgba(
+            var(--motion-rgb),
+            0.8
+        );
+
+    transform:
+        translate(-50%, -50%);
+
+    animation:
+        particle-fade 0.8s linear forwards;
+
+    mix-blend-mode: screen;
+}
+
+@keyframes particle-fade {
+
+    to {
+
+        transform:
+            translate(-50%, -50%)
+            scale(0);
+
+        opacity: 0;
+    }
+}
+
+/* ======================
+   DYNAMIC LIGHTING
+====================== */
+
+.motion-light {
+
+    position: absolute;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    border-radius: inherit;
+
+    opacity: 0;
+
+    transition:
+        opacity 0.2s ease;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(255,255,255,0.18),
+            transparent 70%
+        );
+
+    mix-blend-mode: screen;
+}
+
+/* ======================
+   GLASS OVERLAY
+====================== */
+
+#motion-glass-overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    z-index: 9998;
+
+    backdrop-filter:
+        blur(6px);
+
+    -webkit-backdrop-filter:
+        blur(6px);
+
+    opacity: 0;
+
+    transition:
+        opacity 0.4s ease;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(255,255,255,0.04),
+            transparent 70%
+        );
+
+    mix-blend-mode: screen;
+}
+
+/* ======================
+   FLOATING 3D LAYERS
+====================== */
+
+button,
+a,
+img,
+input,
+textarea,
+select,
+.card,
+.btn,
+.link,
+div {
+
+    position: relative;
+
+    transform-style:
+        preserve-3d;
+
+    isolation: isolate;
+
+    contain:
+        layout style paint;
+
+    perspective: 1000px;
+}
+
+/* ======================
+   GPU ACCELERATION
+====================== */
+
+button,
+a,
+img,
+input,
+textarea,
+select,
+.card,
+.btn,
+.link,
+div {
+
+    will-change: transform;
+
+    transform:
+        translate3d(0,0,0);
+
+    backface-visibility: hidden;
+}
