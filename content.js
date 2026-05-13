@@ -130,6 +130,76 @@ if (!window.motionLayerInitialized) {
       overlay.remove();
     }
 
+
+// ======================
+// INTERCEPT SPA NAVIGATION
+// ======================
+
+const originalPushState =
+  history.pushState;
+
+history.pushState =
+  function (...args) {
+
+    // Transition overlay
+    if (
+      !document.body.contains(
+        overlay
+      )
+    ) {
+      document.body.appendChild(
+        overlay
+      );
+    }
+
+    overlay.style.opacity = "1";
+
+    setTimeout(() => {
+
+      originalPushState.apply(
+        this,
+        args
+      );
+
+      requestAnimationFrame(() => {
+
+        overlay.style.opacity = "0";
+
+        refreshMotionLayer();
+      });
+
+    }, 300);
+  };
+
+// ======================
+// REPLACE STATE SUPPORT
+// ======================
+
+const originalReplaceState =
+  history.replaceState;
+
+history.replaceState =
+  function (...args) {
+
+    originalReplaceState.apply(
+      this,
+      args
+    );
+
+    refreshMotionLayer();
+  };
+
+// ======================
+// BACK / FORWARD SUPPORT
+// ======================
+
+window.addEventListener(
+  "popstate",
+  () => {
+
+    refreshMotionLayer();
+  }
+);
     // ======================
     // INTERCEPT LINKS
     // ======================
@@ -636,73 +706,3 @@ function refreshMotionLayer() {
     motionThemeColor
   );
 }
-
-// ======================
-// INTERCEPT SPA NAVIGATION
-// ======================
-
-const originalPushState =
-  history.pushState;
-
-history.pushState =
-  function (...args) {
-
-    // Transition overlay
-    if (
-      !document.body.contains(
-        overlay
-      )
-    ) {
-      document.body.appendChild(
-        overlay
-      );
-    }
-
-    overlay.style.opacity = "1";
-
-    setTimeout(() => {
-
-      originalPushState.apply(
-        this,
-        args
-      );
-
-      requestAnimationFrame(() => {
-
-        overlay.style.opacity = "0";
-
-        refreshMotionLayer();
-      });
-
-    }, 300);
-  };
-
-// ======================
-// REPLACE STATE SUPPORT
-// ======================
-
-const originalReplaceState =
-  history.replaceState;
-
-history.replaceState =
-  function (...args) {
-
-    originalReplaceState.apply(
-      this,
-      args
-    );
-
-    refreshMotionLayer();
-  };
-
-// ======================
-// BACK / FORWARD SUPPORT
-// ======================
-
-window.addEventListener(
-  "popstate",
-  () => {
-
-    refreshMotionLayer();
-  }
-);
